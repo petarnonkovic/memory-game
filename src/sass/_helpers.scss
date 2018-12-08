@@ -1,0 +1,52 @@
+// helper functions
+@function calculateRem($size) {
+    $remSize: $size / 16px;
+    @return $remSize * 1rem;
+}
+
+// reset all elements
+@mixin elementReset {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+
+// center with flex
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+}
+
+// element size
+@mixin size($w: $default-width, $h: $default-height) {
+    width: $w;
+    height: $h;
+}
+
+// padding
+@mixin padding($padd...) {
+    padding: $padd;
+}
+
+// font-size
+@mixin font-size($default-size) {
+    font-size: $default-size;
+    font-size: calculateRem($default-size);
+}
+
+// radius
+@mixin radius($radius: $default-radius) {
+    border-radius: $radius;
+}
+
+// transition
+@mixin transition($transition: all 0.3s ease-in-out) {
+    transition: $transition;
+}
+
+// box shadow
+@mixin boxshadow($shadow: 2px 2px 4px $default-shadow) {
+    box-shadow: $shadow;
+}

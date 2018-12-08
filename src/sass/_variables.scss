@@ -1,0 +1,38 @@
+/* Colors */
+
+// backgrounds
+$bg-body: rgb(245, 245, 245);
+$bg-btn: rgb(245, 245, 245);
+$bg-btn-hover: darken(rgb(133,20,75), 20%);
+$bg-game-board: rgb(221,221,221);
+$bg-card: rgb(255, 255, 255);
+$transparent-overlay: rgba(0,0,0, 0.6);
+$bg-modal: rgb(140, 140, 140);
+// $bg-modal: rgb(33, 41, 49);
+
+
+// text
+$text-primary: rgb(20,20,20);
+$text-info: rgb(133,20,75);
+$text-btn: rgb(133,20,75);
+$text-btn-hover: rgb(245, 245, 245);
+$text-modal-header: rgb(255,215,0);
+$text-modal-btn: rgb(255,215,0);
+$text-modal-btn-hover: lighten(rgb(255,215,0), 20%);
+
+// utilities
+$border-btn: rgb(133,20,75);
+$border-btn-hover: darken(rgb(133,20,75), 10%);
+$border-modal-btn: rgb(255,215,0);
+$border-modal-btn-hover: lighten(rgb(255,215,0), 20%);
+$border-card-back: rgb(170,170,170);
+
+$default-shadow: rgb(15,15,15) !default;
+
+// dimensions
+$default-width: 100% !default;
+$default-height: 100% !default;
+// border-radius
+$default-radius: 6px !default;
+// font size px
+$default-size: 16px !default;

@@ -1,0 +1,205 @@
+@import 'variables';
+@import 'helpers';
+
+*,
+*::before,
+*::after {
+    @include elementReset();
+}
+
+body {
+    background-color: $bg-body;
+    font-size: 100%;
+    font-family: 'Roboto', sans-serif;
+    color: $text-primary;
+}
+
+/* Container */
+.container {
+    display: flex;
+    flex-flow: column nowrap;
+    position: relative;
+}
+
+/* Modal Styles */
+.modal {
+    @include size();
+    @include padding(50px 100px);
+    position: absolute;
+    font-family: 'Courgette', cursive;
+    background-color: $bg-modal;
+    z-index: 999;
+    &-header {
+        text-align: center;
+        color: $text-modal-header;
+        @include font-size(24px);
+        @include padding(10px);
+    }
+    &-body {
+        margin-bottom: 10%;
+        > h3 {
+            margin: 5% 10%;
+            @include padding(0 0 0 5%);
+        }
+        > ul {
+            list-style-type: none;
+            text-align: center;
+            margin-top: 10px;
+            > li {
+                margin: 2%;
+                @include font-size(32px);
+                > span {
+                    color: $text-modal-header;
+                }
+            }
+        }
+    }
+    &-footer {
+        text-align: center;
+        > button {
+            @include padding(10px 50px);
+            @include font-size(18px);
+            @include radius();
+            @include transition();
+            background-color: transparent;
+            color: $text-modal-btn;
+            border: 2px solid $border-modal-btn;
+            &:hover {
+                cursor: pointer;
+                color: $text-modal-btn-hover;
+                border-color: $border-modal-btn-hover;
+            }
+        }
+    }
+}
+
+
+/* Game Controls */
+.controls {
+    width: 960px;
+    margin: 0 auto;
+    @include padding(5px 50px);
+    display: flex;
+    justify-content: space-between;
+    /* Game Info */
+    &-info > div {
+        display: inline-block;
+        @include font-size(20px);
+        color: $text-info;
+        font-family: 'Courgette', cursive;
+    }
+    &-info > div:last-child {
+        margin-left: 50px;
+    }
+    &-info .player-time,
+    &-info .player-moves {
+        @include font-size(16px);
+        color: $text-primary !important;
+        margin-left: 5px;
+    }
+    /* Game Restart */
+    &-restart > button {
+        @include radius();
+        @include padding(5px 15px);
+        background-color: $bg-btn;
+        color: $text-btn;
+        border: 2px solid $border-btn;
+        font-family: 'Courgette', cursive;
+        @include transition();
+        &:hover {
+            background-color: $bg-btn-hover;
+            border-color: $border-btn-hover;
+            color: $text-btn-hover;
+            cursor: pointer;
+        }
+    }
+}
+
+/* Game Board */
+.game-board {
+    display: flex;
+    flex-flow: row wrap;
+    @include size(960px, 100%);
+    @include padding(0 0 20px);
+    background-color: $bg-game-board;
+    margin: 0 auto;
+    perspective: 1000px;
+    > div {
+        flex: 0 0 140px;
+        height: 140px;
+        @include padding(6px);
+        @include radius();
+        z-index: 99;
+        background-color: $bg-card;
+        margin: 5px 10px;
+        position: relative;
+        will-change: transform;
+        transform-style: preserve-3d;
+        @include transition(all 0.3s ease-in);
+        @include boxshadow();
+    }
+}
+
+.card {
+    &:active {
+        transform: scale(0.95);
+    }
+    > div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        @include radius();
+        @include size();
+    }
+    &-back {
+        background: $bg-card url('../images/backgrounds/question-mark.png') no-repeat center;
+        border: 5px solid $border-card-back;
+        z-index: 6;
+        transform: rotateY(0deg);
+    }
+    &-front {
+        z-index: 9;
+        background-color: $bg-card;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        backface-visibility: hidden;
+        // transform: rotateY(0deg);
+        transform: rotateY(180deg);
+    }
+}
+
+/* Helper classes */
+.flip-card {
+    transform: rotateY(180deg);
+    @include boxshadow(-1px -1px 4px $default-shadow); 
+ }
+
+ .hide-card {
+     visibility: hidden;
+ }
+
+ .hide {
+     display: none;
+ }
+
+ /* Animation classes */
+ .fade-in {
+    animation: fade-in 1s ease;
+    animation-fill-mode: forwards;
+ }
+
+ .fade-out {
+     animation: fade-out 1s ease;
+     animation-fill-mode: forwards;
+ }
+
+ /* Animation Keyframes */
+ @keyframes fade-in {
+    from {opacity: 0;}
+    to {opacity: 1;}
+ }
+ @keyframes fade-out {
+    from {opacity: 1;}
+    to {opacity: 0;}
+ }
