@@ -9,7 +9,8 @@ import '../sass/index.scss'
 import images from '../images/*.png'
 // custom scripts
 import {
-    shuffledCards
+    shuffledCards,
+    gettransitionEnd
 } from './utils'
 
 /* Game Object */
@@ -37,36 +38,27 @@ const Game = {
     },
 
     /* methods */
-    start: function(cb) {
+    start: function() {
         this.loadCardImages()
         this.setEvents()
-        setTimeout(() => {
-            cb()
-        }, 1000)
+        console.log('Game Start')
     },
     restart: function() {
         Game.resetBoard(() => {
-            Game.start(() => {
-                if (!Game.scoreModal.classList.contains('hide')) {
-                    Game.hideModal()
-                }
-            })
+            if (!Game.scoreModal.classList.contains('hide')) {
+                Game.hideModal()
+                window.setTimeout(() => {
+                    Game.scoreModal.classList.add('hide')
+                    Game.scoreModal.classList.remove('fade-out')
+                }, 600)
+            }
+            Game.start()
         })
     },
     resetBoard: function(cb) {
         this.resetTimer()
         this.resetMoveCounter()
-        this.resetCards(this.cards, cards => {
-            setTimeout(() => {
-                forEach(cards, card => {
-                    if (card.classList.contains('hide-card')) {
-                        card.classList.remove('hide-card')
-                    }
-                })
-            }, 500)
-            cb()
-        })
-
+        this.resetCards(this.cards, cb)
     },
     resetCards: function(cards, cb) {
         forEach(cards, card => {
@@ -75,7 +67,14 @@ const Game = {
                 card.classList.remove('flip-card')
             }
         })
-        cb(cards)
+        setTimeout(() => {
+            forEach(cards, card => {
+                if (card.classList.contains('hide-card')) {
+                    card.classList.remove('hide-card')
+                }
+            })
+            cb()
+        }, 500)
     },
     loadCardImages: function() {
         let shuffleImagesList = shuffledCards()
@@ -108,15 +107,14 @@ const Game = {
         Game.flipedCardsCache.push(this)
         if (Game.flipedCardsCache.length === 2) {
             Game.toggleBoardLock()
-            setTimeout(() => {
+            window.setTimeout(() => {
                 Game.isMatch() ? Game.matche() : Game.unmatch()
             }, 500)
         }
     },
     isMatch: function() {
-        let firstCard = this.flipedCardsCache[0].firstElementChild.dataset.name
-        let secondCard = this.flipedCardsCache[1].firstElementChild.dataset.name
-        return firstCard === secondCard
+        return this.flipedCardsCache[0].firstElementChild.dataset.name ===
+        this.flipedCardsCache[1].firstElementChild.dataset.name
     },
     matche: function() {
         this.hideMatched()
@@ -152,16 +150,11 @@ const Game = {
         window.scrollTo(0,0)
     },
     hideModal: function() {
-        Game.scoreModal.classList.remove('fade-in')
-        Game.scoreModal.classList.add('fade-out')
-        setTimeout(() => {
-            Game.scoreModal.classList.add('hide')
-            Game.scoreModal.classList.remove('fade-out')
-        }, 1000)
-       
+        this.scoreModal.classList.remove('fade-in')
+        this.scoreModal.classList.add('fade-out')
     },
     startTimer: function() {
-        this.timer = setTimeout(this.counter, 1000)
+        this.timer = window.setTimeout(this.counter, 1000)
     },
     counter: function() {
         Game.gameTime['second']++
@@ -198,7 +191,7 @@ const Game = {
         this.playerMoves.textContent = this.moveCounter
     },
     clearCardsCache: function() {
-        setTimeout(() => {
+        window.setTimeout(() => {
             this.flipedCardsCache = []
             this.toggleBoardLock()
         }, 500)
@@ -210,9 +203,5 @@ const Game = {
 }
 
 document.addEventListener('DOMContentLoaded', function(e) {
-    Game.start(() => {
-        if (!Game.scoreModal.classList.contains('hide')) {
-            Game.hideModal()
-        }
-    })
+    Game.start()
 })
